@@ -34,11 +34,19 @@ from torch.cuda.amp.grad_scaler import GradScaler
 
 from nerfstudio.configs.experiment_config import ExperimentConfig
 from nerfstudio.data.datamanagers.base_datamanager import VanillaDataManager
-from nerfstudio.engine.callbacks import TrainingCallback, TrainingCallbackAttributes, TrainingCallbackLocation
+from nerfstudio.engine.callbacks import (
+    TrainingCallback,
+    TrainingCallbackAttributes,
+    TrainingCallbackLocation,
+)
 from nerfstudio.engine.optimizers import Optimizers
 from nerfstudio.pipelines.base_pipeline import VanillaPipeline
 from nerfstudio.utils import profiler, writer
-from nerfstudio.utils.decorators import check_eval_enabled, check_main_thread, check_viewer_enabled
+from nerfstudio.utils.decorators import (
+    check_eval_enabled,
+    check_main_thread,
+    check_viewer_enabled,
+)
 from nerfstudio.utils.misc import step_check
 from nerfstudio.utils.rich_utils import CONSOLE
 from nerfstudio.utils.writer import EventName, TimeWriter
@@ -470,7 +478,10 @@ class Trainer:
             self.gradient_accumulation_steps > 0
         ), f"gradient_accumulation_steps must be > 0, not {self.gradient_accumulation_steps}"
         for _ in range(self.gradient_accumulation_steps):
-            with torch.autocast(device_type=cpu_or_cuda_str, enabled=self.mixed_precision):
+            with (
+                torch.autocast(device_type=cpu_or_cuda_str, enabled=self.mixed_precision),
+                torch.autograd.detect_anomaly(check_nan=True),
+            ):
                 _, loss_dict, metrics_dict = self.pipeline.get_train_loss_dict(step=step)
                 loss = functools.reduce(torch.add, loss_dict.values())
                 loss /= self.gradient_accumulation_steps

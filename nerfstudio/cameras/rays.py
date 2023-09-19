@@ -136,6 +136,9 @@ class RaySamples(TensorDataclass):
         """
 
         delta_density = self.deltas * densities
+        # delta_density = torch.concat(
+        #    [delta_density[..., :-1], torch.full_like(delta_density[..., -1:], float("inf"))], dim=-1
+        # )
         alphas = 1 - torch.exp(-delta_density)
 
         transmittance = torch.cumsum(delta_density[..., :-1, :], dim=-2)

@@ -18,9 +18,9 @@ import abc
 from typing import Optional, Union
 
 import torch
-from functorch import jacrev, vmap
 from jaxtyping import Float
 from torch import Tensor, nn
+from torch.func import jacrev, vmap
 
 from nerfstudio.utils.math import Gaussians
 

@@ -191,7 +191,7 @@ class NerfactoModel(Model):
                 implementation=self.config.implementation,
             )
             self.proposal_networks.append(network)
-            self.density_fns.extend([network.density_fn for _ in range(num_prop_nets)])
+            self.density_fns.extend([network.get_density for _ in range(num_prop_nets)])
         else:
             for i in range(num_prop_nets):
                 prop_net_args = self.config.proposal_net_args_list[min(i, len(self.config.proposal_net_args_list) - 1)]
@@ -202,7 +202,7 @@ class NerfactoModel(Model):
                     implementation=self.config.implementation,
                 )
                 self.proposal_networks.append(network)
-            self.density_fns.extend([network.density_fn for network in self.proposal_networks])
+            self.density_fns.extend([network.get_density for network in self.proposal_networks])
 
         # Samplers
         def update_schedule(step):

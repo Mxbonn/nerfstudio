@@ -483,10 +483,7 @@ class Trainer:
             self.gradient_accumulation_steps > 0
         ), f"gradient_accumulation_steps must be > 0, not {self.gradient_accumulation_steps}"
         for _ in range(self.gradient_accumulation_steps):
-            with (
-                torch.autocast(device_type=cpu_or_cuda_str, enabled=self.mixed_precision),
-                torch.autograd.detect_anomaly(check_nan=True),
-            ):
+            with torch.autocast(device_type=cpu_or_cuda_str, enabled=self.mixed_precision):
                 _, loss_dict, metrics_dict = self.pipeline.get_train_loss_dict(step=step)
                 loss = functools.reduce(torch.add, loss_dict.values())
                 loss /= self.gradient_accumulation_steps

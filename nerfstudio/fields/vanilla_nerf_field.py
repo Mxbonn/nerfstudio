@@ -67,6 +67,7 @@ class NeRFField(Field):
         self.use_integrated_encoding = use_integrated_encoding
         self.spatial_distortion = spatial_distortion
 
+        breakpoint()
         self.mlp_base = MLP(
             in_dim=self.position_encoding.get_out_dim(),
             num_layers=base_mlp_num_layers,

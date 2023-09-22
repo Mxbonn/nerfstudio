@@ -270,7 +270,7 @@ class RFFEncoding(FFEncoding):
         super().__init__(in_dim, b_matrix, 1, 0.0, 0.0, include_input)
 
 
-class OffAxisEncoding(FFEncoding):
+class PolyhedronFFEncoding(FFEncoding):
     def __init__(
         self,
         num_frequencies: int,

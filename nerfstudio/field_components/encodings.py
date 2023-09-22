@@ -187,7 +187,9 @@ class FFEncoding(Encoding):
 
     Args:
         in_dim: Input dimension of tensor
-        num_frequencies: Number of encoding frequencies
+        num_frequencies: Number of encoded frequencies per axis
+        min_freq_exp: Minimum frequency exponent
+        max_freq_exp: Maximum frequency exponent
         include_input: Append the input coordinate to the encoding
     """
 
@@ -271,6 +273,17 @@ class RFFEncoding(FFEncoding):
 
 
 class PolyhedronFFEncoding(FFEncoding):
+    """Fourier Feature encoding using polyhedron basis as proposed by mip-NeRF360. Supports integrated encodings.
+
+    Args:
+        num_frequencies: Number of encoded frequencies per axis
+        min_freq_exp: Minimum frequency exponent
+        max_freq_exp: Maximum frequency exponent
+        basis_shape: Shape of polyhedron basis. Either "octahedron" or "icosahedron"
+        basis_subdivisions: Number of times to tesselate the polyhedron.
+        include_input: Append the input coordinate to the encoding
+    """
+
     def __init__(
         self,
         num_frequencies: int,

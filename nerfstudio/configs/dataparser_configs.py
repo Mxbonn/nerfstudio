@@ -20,9 +20,7 @@ from typing import TYPE_CHECKING
 
 import tyro
 
-from nerfstudio.data.dataparsers.arkitscenes_dataparser import (
-    ARKitScenesDataParserConfig,
-)
+from nerfstudio.data.dataparsers.arkitscenes_dataparser import ARKitScenesDataParserConfig
 from nerfstudio.data.dataparsers.base_dataparser import DataParserConfig
 from nerfstudio.data.dataparsers.blender_dataparser import BlenderDataParserConfig
 from nerfstudio.data.dataparsers.colmap_dataparser import ColmapDataParserConfig
@@ -32,13 +30,10 @@ from nerfstudio.data.dataparsers.instant_ngp_dataparser import (
     InstantNGPDataParserConfig,
 )
 from nerfstudio.data.dataparsers.minimal_dataparser import MinimalDataParserConfig
-from nerfstudio.data.dataparsers.mipnerf360_dataparser import Mipnerf360DataParserConfig
 from nerfstudio.data.dataparsers.nerfosr_dataparser import NeRFOSRDataParserConfig
 from nerfstudio.data.dataparsers.nerfstudio_dataparser import NerfstudioDataParserConfig
 from nerfstudio.data.dataparsers.nuscenes_dataparser import NuScenesDataParserConfig
-from nerfstudio.data.dataparsers.phototourism_dataparser import (
-    PhototourismDataParserConfig,
-)
+from nerfstudio.data.dataparsers.phototourism_dataparser import PhototourismDataParserConfig
 from nerfstudio.data.dataparsers.scannet_dataparser import ScanNetDataParserConfig
 from nerfstudio.data.dataparsers.sdfstudio_dataparser import SDFStudioDataParserConfig
 from nerfstudio.data.dataparsers.sitcoms3d_dataparser import Sitcoms3DDataParserConfig
@@ -46,7 +41,6 @@ from nerfstudio.plugins.registry_dataparser import discover_dataparsers
 
 dataparsers = {
     "nerfstudio-data": NerfstudioDataParserConfig(),
-    "mipnerf360-data": Mipnerf360DataParserConfig(),
     "minimal-parser": MinimalDataParserConfig(),
     "arkit-data": ARKitScenesDataParserConfig(),
     "blender-data": BlenderDataParserConfig(),

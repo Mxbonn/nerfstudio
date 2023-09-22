@@ -27,6 +27,11 @@ from threading import Lock
 from typing import Dict, List, Literal, Optional, Tuple, Type, cast
 
 import torch
+from rich import box, style
+from rich.panel import Panel
+from rich.table import Table
+from torch.cuda.amp.grad_scaler import GradScaler
+
 from nerfstudio.configs.experiment_config import ExperimentConfig
 from nerfstudio.data.datamanagers.base_datamanager import VanillaDataManager
 from nerfstudio.engine.callbacks import (
@@ -47,10 +52,6 @@ from nerfstudio.utils.rich_utils import CONSOLE
 from nerfstudio.utils.writer import EventName, TimeWriter
 from nerfstudio.viewer.server.viewer_state import ViewerState
 from nerfstudio.viewer_beta.viewer import Viewer as ViewerBetaState
-from rich import box, style
-from rich.panel import Panel
-from rich.table import Table
-from torch.cuda.amp.grad_scaler import GradScaler
 
 TRAIN_INTERATION_OUTPUT = Tuple[torch.Tensor, Dict[str, torch.Tensor], Dict[str, torch.Tensor]]
 TORCH_DEVICE = str

@@ -376,6 +376,28 @@ class MiDaSMSELoss(nn.Module):
         return image_loss
 
 
+class CharbonnierLoss(nn.Module):
+    """
+    Charbonnier loss.
+    """
+
+    def __init__(self, eps=EPS, reduction_type: Literal["mean", "none"] = "mean"):
+        super().__init__()
+        self.eps = eps
+        self.reduction_type = reduction_type
+
+    def forward(
+        self,
+        prediction: Float[Tensor, "*bs C"],
+        target: Float[Tensor, "*bs C"],
+    ) -> Float[Tensor, "0"]:
+        se = (prediction - target) ** 2
+        loss = torch.sqrt(se + self.eps**2)
+        if self.reduction_type == "mean":
+            loss = torch.mean(loss)
+        return loss
+
+
 # losses based on https://github.com/autonomousvision/monosdf/blob/main/code/model/loss.py
 class GradientLoss(nn.Module):
     """

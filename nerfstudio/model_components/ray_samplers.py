@@ -533,6 +533,7 @@ class ProposalNetworkSampler(Sampler):
         single_jitter: Use a same random jitter for all samples along a ray.
         update_sched: A function that takes the iteration number of steps between updates.
         initial_sampler: Sampler to use for the first iteration. Uses UniformLinDispPiecewise if not set.
+        sampler: Sampler to use after first iterations. Uses PDFSampler if not set.
     """
 
     def __init__(
@@ -543,6 +544,7 @@ class ProposalNetworkSampler(Sampler):
         single_jitter: bool = False,
         update_sched: Callable = lambda x: 1,
         initial_sampler: Optional[Sampler] = None,
+        sampler: Optional[Sampler] = None,
     ) -> None:
         super().__init__()
         self.num_proposal_samples_per_ray = num_proposal_samples_per_ray
@@ -557,7 +559,10 @@ class ProposalNetworkSampler(Sampler):
             self.initial_sampler = UniformLinDispPiecewiseSampler(single_jitter=single_jitter)
         else:
             self.initial_sampler = initial_sampler
-        self.pdf_sampler = PDFSampler(include_original=False, single_jitter=single_jitter)
+        if sampler is None:
+            self.sampler = PDFSampler(include_original=False, single_jitter=single_jitter)
+        else:
+            self.sampler = sampler
 
         self._anneal = 1.0
         self._steps_since_update = 0
@@ -598,7 +603,7 @@ class ProposalNetworkSampler(Sampler):
                 # Perform annealing to the weights. This will be a no-op if self._anneal is 1.0.
                 assert weights is not None
                 annealed_weights = torch.pow(weights, self._anneal)
-                ray_samples = self.pdf_sampler(ray_bundle, ray_samples, annealed_weights, num_samples=num_samples)
+                ray_samples = self.sampler(ray_bundle, ray_samples, annealed_weights, num_samples=num_samples)
             if is_prop:
                 if updated:
                     # always update on the first step or the inf check in grad scaling crashes

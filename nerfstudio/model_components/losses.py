@@ -101,6 +101,7 @@ def lossfun_outer(
     return torch.clip(w - w_outer, min=0) ** 2 / (w + EPS)
 
 
+# TODO move to ray_samples method
 def ray_samples_to_sdist(ray_samples):
     """Convert ray samples to s space"""
     starts = ray_samples.spacing_starts
